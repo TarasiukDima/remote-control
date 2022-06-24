@@ -3,11 +3,12 @@
     "version": "1.0.0",
     "description": "Template for the WebSocket remote control task",
     "main": "index.js",
-    "type": "module",
     "scripts": {
         "start": "node ./index.js",
-        "start:dev": "nodemon ./index.js",
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "start:dev": "nodemon",
+        "start:prod": "webpack --env production && node ./build/main.js",
+        "test": "jest --force-exit",
+        "test:watch": "jest --watch"
     },
     "author": "Andrei Auchynnikau",
     "keywords": [],
