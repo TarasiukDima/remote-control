@@ -9,6 +9,7 @@
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "noImplicitAny": true,
+    "allowSyntheticDefaultImports": true,
     "skipLibCheck": true
   },
   "exclude": ["node_modules", "./build", "./front"],

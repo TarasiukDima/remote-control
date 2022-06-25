@@ -1,6 +1,6 @@
 export const START_SOCKET = 'Start connection!';
 export const CLOSE_SOCKET = 'End connection!';
-export const NOT_FOUND_COMMAND = 'Command is invalid!';
+export const NOT_FOUND_COMMAND = 'Command_is_invalid!';
 
 export enum COMMANDS {
   mouseUp = 'mouse_up',
@@ -11,5 +11,5 @@ export enum COMMANDS {
   drawCircle = 'draw_circle',
   drawRectangle = 'draw_rectangle',
   drawSquare = 'draw_square',
-  printScrn = 'prnt_scrn ',
+  printScrn = 'prnt_scrn',
 }

@@ -33,4 +33,8 @@ export const createSocketConnection = (port: number) => {
     showMessage(CLOSE_SOCKET);
     ws.close();
   });
+  process.on('exit', () => {
+    showMessage(CLOSE_SOCKET);
+    ws.close();
+  });
 };

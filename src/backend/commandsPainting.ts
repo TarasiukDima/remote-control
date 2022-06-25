@@ -1,7 +1,12 @@
 import Jimp from 'jimp';
-import { dragMouse, getMousePos, mouseClick, mouseToggle, moveMouseSmooth } from 'robotjs';
+import { dragMouse, getMousePos, mouseClick, mouseToggle, moveMouseSmooth, screen } from 'robotjs';
 import { Duplex } from 'stream';
-import { showErrorMessage, showSuccessfulMessages } from '../utils/index';
+import {
+  showErrorMessage,
+  showFrontMessage,
+  showSuccessfulMessages,
+  writeSuccessfulMessage,
+} from '../utils/index';
 import { COMMANDS } from '../settings/index';
 
 const paintCircle = (radius: number): void => {
@@ -69,9 +74,38 @@ export const drawSquare = (duplex: Duplex, coords: Array<string>): void => {
   }
 };
 
-export const printScrn = (duplex: Duplex, coords: Array<string>): void => {
+const getBase64StringScreenshot = async (): Promise<string> => {
+  const imgWidth = 200;
+  const imgHeight = 200;
+
+  const { x, y } = getMousePos();
+  const screenShot = screen.capture(x, y, imgWidth, imgHeight);
+  const img = new Jimp({
+    data: screenShot.image,
+    width: screenShot.width,
+    height: screenShot.height,
+  });
+
+  for (let x = 0; x < imgWidth; x++) {
+    for (let y = 0; y < imgHeight; y++) {
+      const hex = screenShot.colorAt(x, y);
+      const num = parseInt(hex + 'ff', 16);
+      img.setPixelColor(num, x, y);
+    }
+  }
+
+  const imageBase64 = await img.getBase64Async(Jimp.MIME_PNG);
+  const needImgPart = imageBase64.split(',');
+
+  return needImgPart.pop() || '';
+};
+
+export const printScrn = async (duplex: Duplex): Promise<void> => {
   try {
-    showSuccessfulMessages(duplex, COMMANDS.printScrn);
+    const base64ImageString = await getBase64StringScreenshot();
+
+    showFrontMessage(duplex, `${COMMANDS.printScrn} ${base64ImageString}`);
+    writeSuccessfulMessage(COMMANDS.printScrn);
   } catch (error) {
     showErrorMessage(duplex, COMMANDS.printScrn);
   }

@@ -14,3 +14,7 @@ createSocketConnection(WS_PORT);
 process.on('SIGINT', () => {
   httpServer.close();
 });
+
+process.on('exit', () => {
+  httpServer.close();
+});

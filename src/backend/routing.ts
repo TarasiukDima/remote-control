@@ -50,7 +50,7 @@ export const readCommand = (duplex: Duplex, frontCommand: string) => {
     }
 
     case COMMANDS.printScrn: {
-      printScrn(duplex, coords);
+      printScrn(duplex);
       break;
     }
 
