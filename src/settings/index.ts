@@ -1,5 +1,6 @@
 export const START_SOCKET = 'Start connection!';
 export const CLOSE_SOCKET = 'End connection!';
+export const NOT_FOUND_COMMAND = 'Command is invalid!';
 
 export enum COMMANDS {
   mouseUp = 'mouse_up',

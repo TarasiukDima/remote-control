@@ -1,66 +1,72 @@
-import Jimp from 'jimp';
-import { getMousePos } from 'robotjs';
-import { showMessage } from '../utils/index';
 import { Duplex } from 'stream';
-import { COMMANDS } from '../settings/index';
-
-const showFrontMessage = (duplex: Duplex, message: string) => {
-  duplex.write(`${message}\0`);
-};
+import { showFrontMessage, showMessage } from '../utils/index';
+import { COMMANDS, NOT_FOUND_COMMAND } from '../settings/index';
+import {
+  drawCircle,
+  drawRectangle,
+  drawSquare,
+  mouseDown,
+  mouseLeft,
+  mousePosition,
+  mouseRight,
+  mouseUp,
+  printScrn,
+} from './commands';
 
 export const readCommand = (duplex: Duplex, frontCommand: string) => {
   const [command, ...coords] = frontCommand.split(' ');
 
   showMessage(frontCommand);
+  showFrontMessage(duplex, frontCommand);
 
   switch (command) {
     case COMMANDS.mouseUp: {
-      showFrontMessage(duplex, frontCommand);
+      mouseUp(coords);
       break;
     }
 
     case COMMANDS.mouseDown: {
-      showFrontMessage(duplex, frontCommand);
+      mouseDown(coords);
       break;
     }
 
     case COMMANDS.mouseLeft: {
-      showFrontMessage(duplex, frontCommand);
+      mouseLeft(coords);
       break;
     }
 
     case COMMANDS.mouseRight: {
-      showFrontMessage(duplex, frontCommand);
+      mouseRight(coords);
       break;
     }
 
     case COMMANDS.mousePosition: {
-      showFrontMessage(duplex, frontCommand);
+      mousePosition();
       break;
     }
 
     case COMMANDS.drawCircle: {
-      showFrontMessage(duplex, frontCommand);
+      drawCircle(duplex, command, coords);
       break;
     }
 
     case COMMANDS.drawRectangle: {
-      showFrontMessage(duplex, frontCommand);
+      drawRectangle(duplex, command, coords);
       break;
     }
 
     case COMMANDS.drawSquare: {
-      showFrontMessage(duplex, frontCommand);
+      drawSquare(duplex, command, coords);
       break;
     }
 
     case COMMANDS.printScrn: {
-      showFrontMessage(duplex, frontCommand);
+      printScrn(duplex, command, coords);
       break;
     }
 
     default: {
-      showFrontMessage(duplex, frontCommand);
+      showFrontMessage(duplex, NOT_FOUND_COMMAND);
       break;
     }
   }
