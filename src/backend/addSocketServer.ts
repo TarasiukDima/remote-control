@@ -14,6 +14,7 @@ const wsStartHandler = async (socket: WebSocket.WebSocket) => {
 
   socket.on('close', () => {
     duplex.destroy();
+    socket.close();
   });
 };
 
