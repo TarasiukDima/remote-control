@@ -7,14 +7,14 @@ import { COMMANDS } from '../settings/index';
 const paintCircle = (radius: number): void => {
   const { x, y } = getMousePos();
   const stepPaint = 0.05;
-  const endPrinting = (Math.PI * 2) + stepPaint;
+  const endPrinting = Math.PI * 2 + stepPaint;
 
   mouseClick();
   mouseToggle('down', 'left');
 
   for (let i = 0; i <= endPrinting; i += stepPaint) {
-    const offsetX = (x + radius) - (radius * Math.cos(i));
-    const offsetY = y - (radius * Math.sin(i));
+    const offsetX = x + radius - radius * Math.cos(i);
+    const offsetY = y - radius * Math.sin(i);
     dragMouse(offsetX, offsetY);
   }
 
@@ -25,7 +25,7 @@ export const drawCircle = (duplex: Duplex, coords: Array<string>): void => {
   try {
     const radiusCircle = Number(coords[0]) || 0;
     paintCircle(radiusCircle);
-    showSuccessfulMessages(duplex, COMMANDS.drawCircle);
+    showSuccessfulMessages(duplex, `${COMMANDS.drawCircle} with radius - ${radiusCircle}px.`);
   } catch (error) {
     showErrorMessage(duplex, COMMANDS.drawCircle);
   }
@@ -50,7 +50,10 @@ export const drawRectangle = (duplex: Duplex, coords: Array<string>): void => {
     const width = Number(coords[0]) || 0;
     const height = Number(coords[1]) || 0;
     paintRectangle(width, height);
-    showSuccessfulMessages(duplex, COMMANDS.drawRectangle);
+    showSuccessfulMessages(
+      duplex,
+      `${COMMANDS.drawRectangle}. Width - ${width}px, height - ${height}px.`
+    );
   } catch (error) {
     showErrorMessage(duplex, COMMANDS.drawRectangle);
   }
@@ -60,7 +63,7 @@ export const drawSquare = (duplex: Duplex, coords: Array<string>): void => {
   try {
     const widthSquare = Number(coords[0]) || 0;
     paintRectangle(widthSquare, widthSquare);
-    showSuccessfulMessages(duplex, COMMANDS.drawSquare);
+    showSuccessfulMessages(duplex, `${COMMANDS.drawSquare} side width - ${widthSquare}px.`);
   } catch (error) {
     showErrorMessage(duplex, COMMANDS.drawSquare);
   }
