@@ -77,9 +77,13 @@ export const drawSquare = (duplex: Duplex, coords: Array<string>): void => {
 const getBase64StringScreenshot = async (): Promise<string> => {
   const imgWidth = 200;
   const imgHeight = 200;
-
   const { x, y } = getMousePos();
-  const screenShot = screen.capture(x, y, imgWidth, imgHeight);
+  const startScreenPositionX = x - imgWidth / 2;
+  const startScreenPositionY = y - imgHeight / 2;
+  const screenX = startScreenPositionX > 0 ? startScreenPositionX : 0;
+  const screenY = startScreenPositionY > 0 ? startScreenPositionY : 0;
+
+  const screenShot = screen.capture(screenX, screenY, imgWidth, imgHeight);
   const img = new Jimp({
     data: screenShot.image,
     width: screenShot.width,
